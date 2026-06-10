@@ -449,6 +449,38 @@ const commonUI = {
       el.style.transition = 'all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1)';
       observer.observe(el);
     });
+  },
+
+  initGallery() {
+    const track = document.getElementById('galleryTrack');
+    if (!track) return;
+    let isDown = false, startX, scrollLeft;
+    track.addEventListener('mousedown', e => {
+      isDown = true; track.classList.add('active');
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => { isDown = false; });
+    track.addEventListener('mouseup', () => { isDown = false; });
+    track.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      track.scrollLeft = scrollLeft - walk;
+    });
+  },
+
+  initFAQ() {
+    document.querySelectorAll('.faq-item').forEach(d => {
+      d.addEventListener('toggle', () => {
+        if (d.open) {
+          document.querySelectorAll('.faq-item').forEach(other => {
+            if (other !== d) other.removeAttribute('open');
+          });
+        }
+      });
+    });
   }
 };
 
@@ -498,11 +530,109 @@ const tourModal = {
   }
 };
 
+// Tours Page Filter System
+let currentFilter = 'all';
+function renderTours() {
+  const toursGrid = document.getElementById('toursGrid');
+  const noResults = document.getElementById('noResults');
+  if (!toursGrid) return;
+
+  const filtered = currentFilter === 'all'
+    ? TOUR_DATA
+    : TOUR_DATA.filter(t => t.cat === currentFilter);
+
+  if (filtered.length === 0) {
+    if (noResults) noResults.style.display = 'block';
+    toursGrid.innerHTML = '';
+  } else {
+    if (noResults) noResults.style.display = 'none';
+    toursGrid.innerHTML = filtered.map(tour => createTourCard(tour)).join('');
+  }
+  commonUI.initAnimations();
+}
+
 // Global Init
 document.addEventListener('DOMContentLoaded', () => {
   commonUI.initHeader();
   commonUI.initProgressBar();
+  commonUI.initGallery();
+  commonUI.initFAQ();
   tourModal.init();
+
+  // Index Page Featured Content
+  const homeToursGrid = document.getElementById('toursGrid');
+  if (homeToursGrid && !document.getElementById('filterContainer')) {
+    homeToursGrid.innerHTML = TOUR_DATA.slice(0, 6).map(tour => createTourCard(tour)).join('');
+  }
+
+  const homeGuidesGrid = document.getElementById('guidesGrid');
+  if (homeGuidesGrid) {
+    homeGuidesGrid.innerHTML = GUIDE_DATA.slice(0, 4).map(guide => `
+      <div class="guide-card">
+        <img class="guide-avatar-img" src="${guide.image}" alt="${guide.name}">
+        <div class="guide-name">${guide.name}</div>
+        <div class="guide-info">${guide.specialization}<br>Стаж ${guide.experience}</div>
+        <div class="guide-rating">★ ${guide.rating} <span>(${guide.reviews} отзывов)</span></div>
+      </div>
+    `).join('');
+  }
+
+  // Tours Page Init
+  const filterContainer = document.getElementById('filterContainer');
+  if (filterContainer) {
+    filterContainer.onclick = (e) => {
+      if (e.target.classList.contains('filter-btn')) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.getAttribute('data-filter');
+        renderTours();
+      }
+    };
+    renderTours();
+  }
+
+  // Guides Page Init
+  const fullGuidesGrid = document.getElementById('guidesGrid');
+  if (fullGuidesGrid && window.location.pathname.includes('guides.html')) {
+    fullGuidesGrid.innerHTML = GUIDE_DATA.map(guide => `
+      <div class="guide-full-card">
+        <div class="guide-full-img">
+          <img src="${guide.image}" alt="${guide.name}">
+        </div>
+        <div class="guide-full-content">
+          <div class="guide-full-header">
+            <div class="guide-full-name">
+              <div class="guide-full-role">${guide.role}</div>
+              <h2>${guide.name}</h2>
+            </div>
+            <div class="guide-full-rating">
+              ★ ${guide.rating} <span>(${guide.reviews} отзывов)</span>
+            </div>
+          </div>
+          <p class="guide-full-bio">${guide.bio}</p>
+          <div class="guide-details-grid">
+            <div class="detail-item">
+              <label>Специализация</label>
+              <p>${guide.specialization}</p>
+            </div>
+            <div class="detail-item">
+              <label>Языки</label>
+              <p>${guide.languages}</p>
+            </div>
+            <div class="detail-item">
+              <label>Опыт работы</label>
+              <p>${guide.experience}</p>
+            </div>
+            <div class="detail-item">
+              <a href="contacts.html" class="btn btn-outline-gold" style="padding: 10px 20px; font-size: 12px;">Выбрать гида</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  commonUI.initAnimations();
 });
 
 // Helper for card generation
