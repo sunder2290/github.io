@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Наши гиды — Astana Soul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    .guides-hero {
+      background: var(--navy);
+      padding: 160px 0 100px;
+      text-align: center;
+    }
+    .guides-list {
+      padding: 100px 0;
+      background: var(--ivory);
+    }
+    .guide-full-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      margin-bottom: 60px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+    }
+    .guide-full-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .guide-full-img {
+      height: 100%;
+      min-height: 450px;
+    }
+    .guide-full-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .guide-full-content {
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+    }
+    .guide-full-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .guide-full-name h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .guide-full-role {
+      font-size: 14px;
+      color: var(--teal);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .guide-full-rating {
+      background: var(--ivory);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .guide-full-rating span {
+      color: var(--text-soft);
+      font-weight: 400;
+      font-size: 13px;
+    }
+    .guide-full-bio {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+    .guide-details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--ivory-dark);
+    }
+    .detail-item label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .detail-item p {
+      font-size: 15px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    @media (max-width: 1024px) {
+      .guide-full-card {
+        grid-template-columns: 1fr;
+      }
+      .guide-full-img {
+        min-height: 350px;
+      }
+    }
+    @media (max-width: 768px) {
+      .guide-full-content {
+        padding: 30px;
+      }
+      .guide-full-header {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <header class="header" id="header">
+    <div class="container">
+      <a href="index.html" class="logo">ASTANA<span>SOUL</span></a>
+      <nav class="nav">
+        <a href="tours.html">Экскурсии</a>
+        <a href="seasons.html">Маршруты</a>
+        <a href="guides.html" class="active">Гиды</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="contacts.html" class="btn btn-gold nav-cta">Забронировать</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="guides-hero">
+    <div class="container">
+      <div class="section-head light">
+        <span class="eyebrow">Наша команда</span>
+        <h1 class="display">Душа Астаны в лицах</h1>
+        <p>Мы не просто показываем город — мы делимся своей любовью к нему. Каждый наш гид — профессионал с уникальным взглядом на столицу.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="guides-list">
+    <div class="container" id="guidesGrid">
+      <!-- Guides will be rendered here -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo">ASTANA<span>SOUL</span></span>
+          <p>Туры по Астане с 2015 года. Лицензия KZ-45-987. Показываем город с любовью и знанием дела.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Экскурсии</h4>
+          <a href="tours.html">Все туры</a>
+          <a href="tours.html?cat=Архитектура">Архитектура</a>
+          <a href="tours.html?cat=История">История</a>
+          <a href="tours.html?cat=Гастрономия">Гастро-туры</a>
+        </div>
+        <div class="footer-col">
+          <h4>Компания</h4>
+          <a href="index.html">Главная</a>
+          <a href="guides.html">Наши гиды</a>
+          <a href="seasons.html">Сезоны</a>
+          <a href="contacts.html">Контакты</a>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <div class="footer-contact-item"><span>📍</span><span>ул. Достык 13, Астана</span></div>
+          <div class="footer-contact-item"><span>📞</span><span>+7 (7172) 88-99-00</span></div>
+          <div class="footer-contact-item"><span>✉️</span><span>hello@astanasoul.kz</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ASTANA SOUL — Сделано с ❤️ в Астане</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const guidesGrid = document.getElementById('guidesGrid');
+
+      const guidesHtml = GUIDE_DATA.map(guide => `
+        <div class="guide-full-card">
+          <div class="guide-full-img">
+            <img src="${guide.image}" alt="${guide.name}">
+          </div>
+          <div class="guide-full-content">
+            <div class="guide-full-header">
+              <div class="guide-full-name">
+                <div class="guide-full-role">${guide.role}</div>
+                <h2>${guide.name}</h2>
+              </div>
+              <div class="guide-full-rating">
+                ★ ${guide.rating} <span>(${guide.reviews} отзывов)</span>
+              </div>
+            </div>
+            <p class="guide-full-bio">${guide.bio}</p>
+            <div class="guide-details-grid">
+              <div class="detail-item">
+                <label>Специализация</label>
+                <p>${guide.specialization}</p>
+              </div>
+              <div class="detail-item">
+                <label>Языки</label>
+                <p>${guide.languages}</p>
+              </div>
+              <div class="detail-item">
+                <label>Опыт работы</label>
+                <p>${guide.experience}</p>
+              </div>
+              <div class="detail-item">
+                <a href="contacts.html" class="btn btn-outline-gold" style="padding: 10px 20px; font-size: 12px;">Выбрать гида</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      guidesGrid.innerHTML = guidesHtml;
+      commonUI.initAnimations();
+    });
+  </script>
+</body>
+</html>

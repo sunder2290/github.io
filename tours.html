@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Все экскурсии — Astana Soul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <script src="main.js" defer></script>
+  <style>
+    .tours-hero {
+      height: 40vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .tours-hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1578321272121-ec7288bb9f9f?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+      opacity: 0.3;
+    }
+    .filter-bar {
+      background: white;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--ivory-dark);
+      position: sticky;
+      top: 72px;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .filter-container {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: 1px solid var(--ivory-dark);
+      background: white;
+      color: var(--text-mid);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .filter-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--navy);
+    }
+    .tours-section {
+      padding: 60px 0 120px;
+      background: var(--white);
+    }
+    .no-results {
+      text-align: center;
+      padding: 100px 0;
+      display: none;
+    }
+    .no-results h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <!-- ─── HEADER ─── -->
+  <header class="header scrolled" id="header">
+    <div class="container">
+      <a href="index.html" class="logo">ASTANA<span>SOUL</span></a>
+      <nav class="nav">
+        <a href="tours.html" class="active">Экскурсии</a>
+        <a href="seasons.html">Маршруты</a>
+        <a href="guides.html">Гиды</a>
+        <a href="contacts.html">Контакты</a>
+        <a href="contacts.html" class="btn btn-gold nav-cta">Забронировать</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <section class="tours-hero">
+    <div class="tours-hero-bg"></div>
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="section-head light" style="margin-bottom: 0; text-align: left;">
+        <span class="eyebrow">Каталог впечатлений</span>
+        <h2 class="display">Все экскурсии</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FILTERS ─── -->
+  <div class="filter-bar">
+    <div class="container">
+      <div class="filter-container" id="filterContainer">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="Архитектура">Архитектура</button>
+        <button class="filter-btn" data-filter="История">История</button>
+        <button class="filter-btn" data-filter="Гастрономия">Гастрономия</button>
+        <button class="filter-btn" data-filter="Ночной город">Ночной город</button>
+        <button class="filter-btn" data-filter="Загородные поездки">Загородные</button>
+        <button class="filter-btn" data-filter="Культура">Культура</button>
+        <button class="filter-btn" data-filter="Lifestyle">Lifestyle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TOURS GRID ─── -->
+  <section class="tours-section">
+    <div class="container">
+      <div class="tours-grid" id="toursGrid">
+        <!-- Карточки генерируются через JS -->
+      </div>
+      <div class="no-results" id="noResults">
+        <h3>Ничего не найдено</h3>
+        <p>Попробуйте изменить параметры фильтрации</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── MODAL ─── -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <div class="modal-close" id="modalClose">✕</div>
+      <div class="modal-left">
+        <img id="modalImg" src="" alt="">
+      </div>
+      <div class="modal-right">
+        <span class="modal-cat" id="modalCat"></span>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+
+        <h3 class="modal-route-title">Маршрут приключения</h3>
+        <div class="route-list" id="modalRoute">
+          <!-- Пункты маршрута -->
+        </div>
+
+        <div class="modal-footer">
+          <div class="card-price" id="modalPrice"></div>
+          <button class="btn btn-gold">Забронировать тур</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer id="contacts">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">ASTANA<span>SOUL</span></a>
+          <p>Создаем глубокие смыслы и незабываемые впечатления в самом сердце Казахстана с 2015 года.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Направления</h4>
+          <a href="tours.html">Все туры</a>
+          <a href="tours.html?cat=Архитектура">Архитектура</a>
+          <a href="tours.html?cat=История">История</a>
+          <a href="tours.html?cat=Гастрономия">Гастрономия</a>
+        </div>
+        <div class="footer-col">
+          <h4>Компания</h4>
+          <a href="index.html">Главная</a>
+          <a href="guides.html">Наши гиды</a>
+          <a href="seasons.html">Сезоны</a>
+          <a href="contacts.html">Контакты</a>
+        </div>
+        <div class="footer-col">
+          <h4>Контакты</h4>
+          <div class="footer-contact-item"><span>📍</span> ул. Достык 13, Астана</div>
+          <div class="footer-contact-item"><span>📞</span> +7 (7172) 88-99-00</div>
+          <div class="footer-contact-item"><span>✉️</span> hello@astanasoul.kz</div>
+          <div class="socials" style="margin-top: 20px;">
+            <a href="#" class="social-btn">IG</a>
+            <a href="#" class="social-btn">TG</a>
+            <a href="#" class="social-btn">WA</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Astana Soul. Все права защищены. Лицензия KZ-45-987.</p>
+        <p>Design with ❤️ in Astana</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentFilter = 'all';
+
+    function renderTours() {
+      const filtered = currentFilter === 'all'
+        ? TOUR_DATA
+        : TOUR_DATA.filter(t => t.cat === currentFilter);
+
+      const toursGrid = document.getElementById('toursGrid');
+      const noResults = document.getElementById('noResults');
+
+      if (filtered.length === 0) {
+        noResults.style.display = 'block';
+        toursGrid.innerHTML = '';
+      } else {
+        noResults.style.display = 'none';
+        toursGrid.innerHTML = filtered.map(tour => createTourCard(tour)).join('');
+      }
+      if (typeof commonUI !== 'undefined') {
+        commonUI.initAnimations();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterContainer = document.getElementById('filterContainer');
+      if (filterContainer) {
+        filterContainer.onclick = (e) => {
+          if (e.target.classList.contains('filter-btn')) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            currentFilter = e.target.getAttribute('data-filter');
+            renderTours();
+          }
+        };
+      }
+      renderTours();
+    });
+  </script>
+</body>
+</html>
