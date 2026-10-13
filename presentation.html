@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Презентация — Онлайн-школа «Синтаксис»</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a1628;
+      --bg-card: #12233c;
+      --bg-card-hover: #182e4e;
+      --accent-gold: #d4a843;
+      --accent-teal: #1a8a8a;
+      --text-white: #ffffff;
+      --text-light: #f5f7fa;
+      --text-muted: #aab9cd;
+      --border-color: rgba(212, 168, 67, 0.2);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* TOP BAR & NAV */
+    header {
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+      padding-left: 12px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 8px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+    }
+
+    .btn-solid {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+    }
+
+    .btn-solid:hover {
+      background: #e5b954;
+      color: var(--bg-dark);
+    }
+
+    /* SLIDE CONTAINER */
+    .deck-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    .slide {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 1100px;
+      min-height: 600px;
+      padding: 48px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      animation: fadeIn 0.4s ease;
+      position: relative;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    /* GRID & CARDS INSIDE SLIDES */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+    }
+
+    .info-card {
+      background: rgba(10, 22, 40, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-card h3 {
+      font-size: 18px;
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .info-card h3.teal {
+      color: var(--accent-teal);
+    }
+
+    .info-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .list-item {
+      margin-bottom: 12px;
+    }
+
+    .list-item-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-bottom: 2px;
+    }
+
+    .list-item-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* COVER SLIDE */
+    .cover-slide {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 60px 40px;
+    }
+
+    .cover-badge {
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      background: rgba(212, 168, 67, 0.1);
+      border: 1px solid var(--accent-gold);
+      padding: 6px 16px;
+      border-radius: 20px;
+    }
+
+    .cover-title {
+      font-family: var(--font-display);
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin: 12px 0;
+      max-width: 850px;
+    }
+
+    .cover-team {
+      font-size: 15px;
+      color: var(--text-light);
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    .cover-footer {
+      font-size: 13px;
+      color: var(--accent-teal);
+      margin-top: 24px;
+    }
+
+    /* METRIC CARDS */
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .metric-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .price-tag {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin: 4px 0;
+    }
+
+    .duration-tag {
+      font-size: 12px;
+      color: var(--accent-teal);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* FOOTER BAR & NAVIGATION CONTROLS */
+    .deck-footer {
+      background: rgba(10, 22, 40, 0.95);
+      border-top: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .slide-counter {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .nav-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-white);
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+      border-color: var(--accent-gold);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .progress-bar-wrap {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--accent-gold);
+      width: 10%;
+      transition: width 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .slide {
+        padding: 24px;
+      }
+      .cover-title {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <span class="brand-title">СИНТАКСИС</span>
+      <span class="brand-subtitle">Бизнес-модель онлайн-школы</span>
+    </div>
+    <div class="controls">
+      <a href="index.html" class="btn">← Вернуться на главную</a>
+      <a href="презентация_синтаксис.pptx" class="btn btn-solid" download>📥 Скачать PPTX</a>
+    </div>
+  </header>
+
+  <!-- DECK CONTAINER -->
+  <div class="deck-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide cover-slide active" data-slide="1">
+      <div class="cover-badge">КГКП «Жезказганский высший политехнический колледж»</div>
+      <h1 class="cover-title">Бизнес модель «Онлайн школа по программированию-Синтаксис»</h1>
+      <div class="cover-team">
+        <strong>Специальность: Программное обеспечение</strong><br><br>
+        <strong>Выполнили студенты группы ПО-32:</strong><br>
+        Церр Данил, Деревянко Илья, Захарко Ильяс, Рахимбаева Назгуль
+      </div>
+      <div class="cover-footer">
+        Проверила: преподаватель Айтжанова А. А. &bull; Жезказган — 2026
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" data-slide="2">
+      <div class="slide-eyebrow">Раздел 1</div>
+      <h2 class="slide-title">1. Ключевые ценности</h2>
+      <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+        <div class="info-card">
+          <h3>💳 Гибкая система оплаты</h3>
+          <p>В виде ежемесячной или разовой подписки.</p>
+        </div>
+        <div class="info-card">
+          <h3>🔍 Полная прозрачность обучения</h3>
+          <p>Честный подход без необоснованных громких обещаний.</p>
+        </div>
+        <div class="info-card">
+          <h3>💻 Акцентирование на практику</h3>
+          <p>Практический подход в программе обучения с поддержкой наставников.</p>
+        </div>
+        <div class="info-card">
+          <h3>🏆 Мотивация и Хакатоны</h3>
+          <p>Мотивация студентов проверить полученные знания в различных «Хакатонах».</p>
+        </div>
+        <div class="info-card">
+          <h3>📜 Сертификаты с QR-проверкой</h3>
+          <p>Выдача официального документа в виде сертификата об окончании курса с проверкой на подлинность через QR-код.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" data-slide="3">
+      <div class="slide-eyebrow">Раздел 2</div>
+      <h2 class="slide-title">2. Сегменты потребителей</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <h3>🎯 На старте проекта</h3>
+          <div class="list-item">
+            <div class="list-item-title">Дети и подростки от 10 до 18 лет</div>
+            <div class="list-item-desc">Основная аудитория, заинтересованная в изучении программирования и цифровой грамотности.</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-title">Их родители</div>
+            <div class="list-item-desc">Заинтересованы в полезном досуге и будущей профессии ребенка.</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">🚀 Стратегический план</h3>
+          <div class="list-item">
+            <div class="list-item-title">Курсы для взрослой аудитории</div>
+            <div class="list-item-desc">При масштабировании проекта — помощь тем, кому нужна смена специальности.</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-title">Грамотность в работе с ИИ</div>
+            <div class="list-item-desc">Обучение работе с искусственным интеллектом для практических задач.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" data-slide="4">
+      <div class="slide-eyebrow">Раздел 3</div>
+      <h2 class="slide-title">3. Каналы взаимодействия</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <h3>🎧 Discord</h3>
+          <p style="color: var(--text-white); font-weight: 500;">Уроки и демонстрация экрана:</p>
+          <p>Платформа с удобными функциями и голосовыми чатами для проведения онлайн-уроков, демонстрации экрана наставнику в хорошем качестве — абсолютно необходимая функция для работы с учениками.</p>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">📱 Instagram, Telegram, TikTok</h3>
+          <p style="color: var(--text-white); font-weight: 500;">Продвижение и реклама:</p>
+          <p>Площадки с большой концентрацией молодой и взрослой аудиторией. Именно в них проще всего разместить рекламу и привлечь интерес.</p>
+        </div>
+
+        <div class="info-card">
+          <h3>🏫 Школы Казахстана</h3>
+          <p>Многие подростки рассматривают возможность обучиться программированию. Учебная программа конкурентов остается неактуальной, а мы предоставляем актуальный материал здесь и сейчас.</p>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">🚶‍♂️ Работа с промоутерами</h3>
+          <p>Офлайн-привлечение и прямое информирование школьников и родителей.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" data-slide="5">
+      <div class="slide-eyebrow">Раздел 4</div>
+      <h2 class="slide-title">4. Отношения с клиентами</h2>
+      <div class="info-card" style="margin-bottom: 16px;">
+        <h3 style="color: var(--accent-gold);">Честность и прозрачность вместо избитых фраз</h3>
+        <p style="font-style: italic; color: var(--text-light);">
+          «Мы не можем себе позволить использовать избитые фразы вроде "Профессия будущего" или "Гарантированное трудоустройство". Рекламная кампания должна обличать обман, что программирование — это просто. Мы обещаем максимально упростить сложное и вместо иллюзии обучения предоставить настоящую пользу и навыки.»
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="info-card">
+          <div class="list-item-title">🎮 Геймификация и интерактив</div>
+          <div class="list-item-desc">Для удержания внимания детей и высокой вовлеченности.</div>
+          <div class="list-item-title" style="margin-top: 10px;">📊 Отчеты для родителей</div>
+          <div class="list-item-desc">Ежемесячные отчеты об успеваемости и прогрессе ребенка.</div>
+        </div>
+        <div class="info-card">
+          <div class="list-item-title">🔍 Контроль процесса обучения</div>
+          <div class="list-item-desc">Полный контроль от поступления до завершения курса.</div>
+          <div class="list-item-title" style="margin-top: 10px;">📜 Подлинные сертификаты</div>
+          <div class="list-item-desc">Предоставление официального документа с QR-проверкой.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" data-slide="6">
+      <div class="slide-eyebrow">Раздел 5</div>
+      <h2 class="slide-title">5. Потоки дохода и Расчет выручки</h2>
+      <div class="grid-3" style="margin-bottom: 16px;">
+        <div class="info-card">
+          <h3>Frontend Junior</h3>
+          <div class="price-tag">23 000 ₸ <span style="font-size: 13px; color: var(--text-muted);">/ мес</span></div>
+          <div class="duration-tag">4 месяца обучения</div>
+          <p style="font-size: 12px; margin-top: 6px;">
+            23 000 ₸ × 12 чел × 4 группы − 10% =<br><strong style="color: var(--accent-gold); font-size: 15px;">993 600 ₸ / мес</strong>
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>UI/UX Дизайн</h3>
+          <div class="price-tag">19 000 ₸ <span style="font-size: 13px; color: var(--text-muted);">/ мес</span></div>
+          <div class="duration-tag">4 месяца обучения</div>
+          <p style="font-size: 12px; margin-top: 6px;">
+            19 000 ₸ × 12 чел × 4 группы − 10% =<br><strong style="color: var(--accent-gold); font-size: 15px;">820 800 ₸ / мес</strong>
+          </p>
+        </div>
+
+        <div class="info-card">
+          <h3>Основы Python</h3>
+          <div class="price-tag">27 000 ₸ <span style="font-size: 13px; color: var(--text-muted);">/ мес</span></div>
+          <div class="duration-tag">5 месяцев обучения</div>
+          <p style="font-size: 12px; margin-top: 6px;">
+            27 000 ₸ × 12 чел × 4 группы − 10% =<br><strong style="color: var(--accent-gold); font-size: 15px;">1 166 400 ₸ / мес</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="info-card" style="border-color: var(--accent-gold);">
+        <div style="font-size: 20px; font-weight: 700; color: var(--accent-gold);">Итого суммарный доход в месяц: 2 980 800 ₸</div>
+        <p style="font-size: 13px; margin-top: 4px;">
+          • Скидка 10% при разовой оплате всего курса | • Скидка 20% по одноразовому коду выпускника для знакомых на 1-й месяц.<br>
+          • Перспектива: Индивидуальное наставничество при масштабировании.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" data-slide="7">
+      <div class="slide-eyebrow">Разделы 6 и 7</div>
+      <h2 class="slide-title">6. Ключевые ресурсы & 7. Ключевые действия</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <h3>🧩 Ключевые ресурсы</h3>
+          <div class="list-item">
+            <div class="list-item-title">Команда</div>
+            <div class="list-item-desc">3 куратора-преподавателя (по 4 группы каждый) + 1 администратор.</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-title">Техническая база</div>
+            <div class="list-item-desc">Сайт, хостинг, веб-приложение, Телеграм бот.</div>
+          </div>
+          <div class="list-item">
+            <div class="list-item-title">Методическая база</div>
+            <div class="list-item-desc">Уникальные программы 70% практики / 30% теории, хакатоны.</div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">⚙️ Ключевые действия</h3>
+          <div class="list-item">
+            <div class="list-item-desc">• Заработок стартового капитала на фриланс-проектах.</div>
+            <div class="list-item-desc">• Создание полной программы обучения и загрузка на платформу.</div>
+            <div class="list-item-desc">• Регистрация проекта как ИП по упрощёнке.</div>
+            <div class="list-item-desc">• Проведение маркетинговой кампании.</div>
+            <div class="list-item-desc">• Контроль оплат и отчеты для родителей.</div>
+            <div class="list-item-desc">• Проведение соревнований и хакатонов.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" data-slide="8">
+      <div class="slide-eyebrow">Раздел 8</div>
+      <h2 class="slide-title">8. Ключевые партнёры</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <h3>🖥️ Инфраструктура</h3>
+          <div class="list-item-title">Хостинг-провайдеры</div>
+          <div class="list-item-desc">Обеспечение работы веб-платформы, сайта и Телеграм бота.</div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">🎓 Образование и продвижение</h3>
+          <div class="list-item-title">Школы Казахстана</div>
+          <div class="list-item-desc">Информирование школьников и привлечение заинтересованных учеников.</div>
+        </div>
+
+        <div class="info-card">
+          <h3>📣 Маркетинг</h3>
+          <div class="list-item-title">Инфлюенсеры & Реклама</div>
+          <div class="list-item-desc">Инфлюенсеры в Instagram и Telegram, рекламные площадки и работы промоутеров.</div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">🤝 Партнерство школ</h3>
+          <div class="list-item-title">Другие онлайн-школы</div>
+          <div class="list-item-desc">Возможное сотрудничество с проектами, дополняющими наши курсы.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" data-slide="9">
+      <div class="slide-eyebrow">Раздел 9</div>
+      <h2 class="slide-title">9. Структура расходов и Финансовый результат</h2>
+      <div class="grid-2">
+        <div class="info-card">
+          <h3>📋 Ежемесячные затраты</h3>
+          <div class="list-item-desc">• Зарплата кураторов: 3 × 250 000 ₸ = <strong>750 000 ₸</strong></div>
+          <div class="list-item-desc">• Зарплата администратора: <strong>280 000 ₸</strong></div>
+          <div class="list-item-desc">• Хостинг: <strong>20 000 ₸</strong></div>
+          <div class="list-item-desc">• Буст Discord сервера: <strong>17 000 ₸</strong></div>
+          <div class="list-item-desc">• Реклама и промоутеры: <strong>300 000 ₸</strong></div>
+          <div class="list-item-desc">• Подоходный налог 4% (с 2 980 800 ₸): <strong>119 300 ₸</strong></div>
+        </div>
+
+        <div class="info-card">
+          <h3 class="teal">💵 Расчет чистой прибыли</h3>
+          <div style="font-size: 13px; color: var(--text-muted);">
+            2 980 800 − 119 300 − 750 000 − 280 000 − 20 000 − 17 000 − 300 000
+          </div>
+          <div style="font-size: 32px; font-weight: 700; color: var(--accent-gold); font-family: var(--font-display); margin: 8px 0;">
+            1 494 500 ₸ / мес
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0;">
+          <h4 style="color: var(--text-white);">💼 Стартовый капитал: 1 500 000 ₸</h4>
+          <p style="font-size: 12px; color: var(--text-muted);">
+            Без кредитов! Формируется самостоятельно за полгода работы на фриланс-биржах.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" data-slide="10">
+      <div class="slide-eyebrow">Заключение</div>
+      <h2 class="slide-title">Итог проекта</h2>
+      <div class="info-card" style="padding: 40px; text-align: center; justify-content: center; gap: 24px;">
+        <p style="font-size: 22px; color: var(--text-white); line-height: 1.6; max-width: 800px; margin: 0 auto;">
+          При правильном выполнении указанных шагов, этот бизнес-проект вполне рентабелен и имеет высокий потенциал.
+        </p>
+        <div style="font-family: var(--font-display); font-size: 42px; font-weight: 700; color: var(--accent-gold); margin-top: 20px;">
+          Спасибо за внимание!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER CONTROLS -->
+  <div class="deck-footer">
+    <div class="slide-counter" id="slideCounter">Слайд 1 из 10</div>
+    <div class="nav-btns">
+      <button class="nav-btn" id="prevBtn" title="Предыдущий слайд">←</button>
+      <button class="nav-btn" id="nextBtn" title="Следующий слайд">→</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 10;
+
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideCounter = document.getElementById('slideCounter');
+    const progressFill = document.getElementById('progressFill');
+
+    function updateDeck() {
+      slides.forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      slideCounter.textContent = `Слайд ${currentSlide} из ${totalSlides}`;
+      progressFill.style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+      prevBtn.disabled = currentSlide === 1;
+      nextBtn.disabled = currentSlide === totalSlides;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateDeck();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateDeck();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        if (currentSlide < totalSlides) {
+          currentSlide++;
+          updateDeck();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 1) {
+          currentSlide--;
+          updateDeck();
+        }
+      }
+    });
+
+    updateDeck();
+  </script>
+</body>
+</html>
